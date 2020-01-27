@@ -1,20 +1,20 @@
 // Business Logic for To-Do-List
-function todoList(){
+function TodoList(){
     this.list = [];
     this.currentId = 0;
 }
 
-todoList.prototype.Additem = function(listItem) {
+TodoList.prototype.addItem = function(listItem) {
     listItem.id =this.assignId();
     this.list.push(listItem);
 }
 
-todoList.prototype.assignId = function(){
+TodoList.prototype.assignId = function(){
     this.currentId += 1;
     return this.currentId;
 }
 
-todoList.prototype.findItem = function(id){
+TodoList.prototype.findItem = function(id){
     for(var i=0; this.list.length; i++){
         if(this.list[i]){
             if(this.list[i].id == id){
@@ -26,7 +26,7 @@ todoList.prototype.findItem = function(id){
 }
 
 
-todoList.prototype.deleteItem = function(id){
+TodoList.prototype.deleteItem = function(id){
     for(var i=0; this.list.length; i++){
         if(this.list[i]){
             if(this.list[i].id == id){
@@ -38,4 +38,55 @@ todoList.prototype.deleteItem = function(id){
     return false
 }
 
-// Interface logic
+function ListItem(name) {
+    this.name = name;
+}
+// function List(){
+//     this.listItems = [];
+// }
+
+ListItem.prototype.GetName = function(){
+    return this.name; 
+}
+
+// Interface Logic
+
+function displayListItem(listToDisplay){
+    var toDoList = $("#todo-list");
+    var htmlListForItem=  "";
+    listToDisplay.list.forEach(function(listItem) {
+        htmlListForItem += `<li id='${listItem.id}'>${listItem.name}</li>`;
+        htmlListForItem += `<br>`;     
+    });
+    toDoList.html(htmlListForItem);
+}
+
+// function resetFormInputs(formInputs) {
+//     formInputs.foreach(function(formInput){
+//         formInput.val(" ");
+//     });
+// }
+function attachToDoListListeners(){
+$("ul#todo-list").on("click",  ".delete-button", function() {
+    todoList.deleteItem(this.id);
+    $ ("#todo-list").toggle();
+    //displayListItem(todoList);
+    })
+}
+
+var newtodoList = new TodoList();
+
+$(document).ready(function() {
+    attachToDoListListeners();
+        $("form#create-list-form").submit(function(event) { 
+            event.preventDefault();
+            var listItemInput = $("#list-input");
+            var inputArray=[listItemInput];
+            var todo = $('#todo-list');
+            var newListItem = new ListItem (listItemInput.val());
+            newtodoList.addItem(newListItem);
+            displayListItem(newtodoList);
+            // resetFormInputs(inputArray);
+
+        });
+});

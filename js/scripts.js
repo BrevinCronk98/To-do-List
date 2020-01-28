@@ -41,9 +41,7 @@ TodoList.prototype.deleteItem = function(id){
 function ListItem(name) {
     this.name = name;
 }
-// function List(){
-//     this.listItems = [];
-// }
+
 
 ListItem.prototype.GetName = function(){
     return this.name; 
@@ -61,16 +59,16 @@ function displayListItem(listToDisplay){
     toDoList.html(htmlListForItem);
 }
 
-// function resetFormInputs(formInputs) {
-//     formInputs.foreach(function(formInput){
-//         formInput.val(" ");
-//     });
-// }
+ function resetFormInputs(formInputs) {
+      formInputs.forEach(function(formInput) {
+          formInput.val("");
+    });
+  }
 function attachToDoListListeners(){
 $("ul#todo-list").on("click",  ".delete-button", function() {
     todoList.deleteItem(this.id);
     $ ("#todo-list").toggle();
-    //displayListItem(todoList);
+   
     })
 }
 
@@ -81,12 +79,12 @@ $(document).ready(function() {
         $("form#create-list-form").submit(function(event) { 
             event.preventDefault();
             var listItemInput = $("#list-input");
-            var inputArray=[listItemInput];
+            var inputArray = [];
+            inputArray.push(listItemInput);
             var todo = $('#todo-list');
             var newListItem = new ListItem (listItemInput.val());
             newtodoList.addItem(newListItem);
             displayListItem(newtodoList);
-            // resetFormInputs(inputArray);
-
+            resetFormInputs(inputArray);
         });
 });
